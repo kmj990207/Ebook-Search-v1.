@@ -226,7 +226,10 @@
     deselectResultsBtn.onclick = () => selectedResults.forEach(cb => cb.checked = false);
     openSelectedBtn.onclick = () => selectedResults.forEach(cb => cb.checked && window.open(cb.dataset.url, '_blank'));
     btnReset.onclick = () => location.reload();
-    searchBtn.onclick = searchMultiPlatformBooks;
+    searchBtn.onclick = () => {
+  autocompleteList.innerHTML = '';   // 자동완성 리스트 닫기
+  searchMultiPlatformBooks();
+};
 
     // 자동완성 (알라딘 API)
     const autocompleteInp = document.getElementById('bookTitle');
@@ -277,6 +280,7 @@
       const items = autocompleteList.querySelectorAll('.autocomplete-item');
       if (e.key === 'Enter') {
         e.preventDefault();
+        autocompleteList.innerHTML = '';   // <<== 추가! 검색 직전 항상 닫기
         if (items[autocompleteFocus]) {
           const selectedTitle = items[autocompleteFocus].querySelector('.autocomplete-title').textContent;
           autocompleteInp.value = selectedTitle;
