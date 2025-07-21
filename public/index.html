@@ -178,21 +178,21 @@
     }
 
     async function searchMultiPlatformBooks() {
-      const q = document.getElementById('bookTitle').value.trim();
-      const mode = document.getElementById('searchTypeSelect').value;
-      if (!q) {
-        alert(mode === 'author' ? '작가 이름을 입력해주세요.' : '책 제목 또는 저자명을 입력해주세요.');
-        return;
-      }
-      resultsDiv.querySelectorAll('.result-row').forEach(el => el.remove());
-      selectedResults = [];
-      resultControls.style.display = 'none';
-      spinner.style.display = 'block';
+  const q = document.getElementById('bookTitle').value.trim();
+  const mode = document.getElementById('searchTypeSelect').value;
+  if (!q) {
+    alert(mode === 'author' ? '작가 이름을 입력해주세요.' : '책 제목 또는 저자명을 입력해주세요.');
+    return;
+  }
+  resultsDiv.innerHTML = '<div id="spinner"><div class="spinner"></div></div>';
+  spinner.style.display = 'block';
+  selectedResults = [];
+  resultControls.style.display = 'none';
 
-      const enabled = Object.keys(platforms).filter(name => {
-        const cb = document.getElementById(name.replace(/\s+/g, ''));
-        return cb && cb.checked;
-      });
+  const enabled = Object.keys(platforms).filter(name => {
+    const cb = document.getElementById(name.replace(/\s+/g, ''));
+    return cb && cb.checked;
+  });
       const enc = encodeURIComponent(q);
       const tasks = enabled.map(site => {
         let urlTpl = mode === 'title' ? platforms[site].titleUrl
